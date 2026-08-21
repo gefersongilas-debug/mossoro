@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Mossoró Empresarial | Mobiliário profissional para empresas",
-  description: "Móveis em MDF, mobiliário de aço e cadeiras corporativas para sua empresa.",
+  description: "Mobiliário corporativo, linha de aço e cadeiras para sua empresa.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
