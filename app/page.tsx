@@ -8,14 +8,14 @@ const WHATSAPP = "5598987827060";
 const logo = "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/LOGO_MOSSORO_PNG.png";
 
 const productCards = [
-  { title: "Móveis em MDF", text: "Mesas, armários, estações de trabalho e soluções para ambientes mais organizados, funcionais e profissionais.", ideal: "Escritórios, salas administrativas, recepções e salas de reunião.", image: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/arquivar.jpg", tag: "MDF" },
+  { title: "Mobiliário corporativo", text: "Mesas, armários, estações de trabalho e soluções para ambientes mais organizados, funcionais e profissionais.", ideal: "Escritórios, salas administrativas, recepções e salas de reunião.", image: "https://mossoroempresarial.com.br/wp-content/uploads/slider/cache/6540a0d8804d5b2f75221dd770ce6c2f/avantti-1.jpg", tag: "MOBILIÁRIO" },
   { title: "Mobiliário de aço", text: "Armários, roupeiros e produtos resistentes para empresas que precisam melhorar a organização no dia a dia.", ideal: "Empresas, indústrias, vestiários e áreas de grande circulação.", image: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/moveis-de-aco.jpg", tag: "AÇO" },
   { title: "Cadeiras corporativas", text: "Conforto, funcionalidade e uma apresentação profissional para cada ambiente da sua empresa.", ideal: "Postos de trabalho, clínicas, recepções e diretorias.", image: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/cadeira-de-escritorio.jpg", tag: "CADEIRAS" },
 ];
 
 const benefits = [
   ["01", "Atendimento especializado", "Opções adequadas ao espaço, rotina e necessidade da sua empresa."],
-  ["02", "Soluções em um só lugar", "MDF, cadeiras, armários e mobiliário de aço para seu projeto."],
+  ["02", "Soluções em um só lugar", "Mobiliário corporativo, cadeiras, armários e linha de aço para seu projeto."],
   ["03", "Para cada necessidade", "Da troca de algumas cadeiras à estruturação de novos ambientes."],
   ["04", "Entrega e montagem", "Mais praticidade para receber o mobiliário pronto para utilização."],
   ["05", "Experiência corporativa", "Soluções para empresas que valorizam funcionalidade e presença profissional."],
@@ -141,7 +141,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="trust-strip"><div className="wrap trust-inner"><span>UMA SOLUÇÃO COMPLETA PARA O SEU ESPAÇO</span><div><b>MDF</b><b>AÇO</b><b>CADEIRAS</b><b>PROJETOS</b></div><span className="delivery">● ENTREGA E MONTAGEM</span></div></section>
+      <section className="trust-strip"><div className="wrap trust-inner"><span>UMA SOLUÇÃO COMPLETA PARA O SEU ESPAÇO</span><div><b>MOBILIÁRIO</b><b>AÇO</b><b>CADEIRAS</b><b>PROJETOS</b></div><span className="delivery">● ENTREGA E MONTAGEM</span></div></section>
 
       <section className="section benefits" data-reveal-section><div className="wrap">
         <div className="section-intro" data-reveal-item><p className="eyebrow blue">POR QUE ESCOLHER A MOSSORÓ</p><h2><SplitText text="Muito mais do que móveis." /><br /><em><SplitText text="A solução certa" /></em><SplitText text=" para o seu ambiente." /></h2><p>Na Mossoró Empresarial, cada atendimento começa entendendo o que sua empresa realmente precisa.</p></div>
