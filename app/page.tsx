@@ -26,13 +26,25 @@ function whatsappLink(message: string) {
 }
 
 function SplitText({ text }: { text: string }) {
+  const segments = text.split(/(\s+)/).filter(Boolean);
+
   return (
     <span className="split-text" aria-label={text}>
-      {Array.from(text).map((character, index) => (
-        <span className="split-char" aria-hidden="true" key={`${character}-${index}`}>
-          {character === " " ? "\u00a0" : character}
-        </span>
-      ))}
+      {segments.map((segment, segmentIndex) =>
+        /^\s+$/.test(segment) ? (
+          <span className="split-space" aria-hidden="true" key={`space-${segmentIndex}`}>
+            {" "}
+          </span>
+        ) : (
+          <span className="split-word" aria-hidden="true" key={`word-${segmentIndex}`}>
+            {Array.from(segment).map((character, index) => (
+              <span className="split-char" key={`${character}-${index}`}>
+                {character}
+              </span>
+            ))}
+          </span>
+        )
+      )}
     </span>
   );
 }
@@ -129,7 +141,7 @@ export default function Home() {
             <div className="hero-proof"><span>+10</span><p>anos oferecendo soluções<br />para ambientes profissionais</p></div>
           </div>
           <form className="quote-form" onSubmit={submit}>
-            <div className="form-heading"><span className="form-mark">↗</span><div><strong>Solicite sua cotação</strong><small>Fale com nossa equipe sem compromisso.</small></div></div>
+            <div className="form-heading"><div><strong>Solicite sua cotação</strong><small>Fale com nossa equipe sem compromisso.</small></div></div>
             <label>Seu nome<input required name="nome" placeholder="Como podemos chamar você?" /></label>
             <label>WhatsApp<input required name="whatsapp" type="tel" placeholder="(00) 00000-0000" /></label>
             <label>Empresa <span>(opcional)</span><input name="empresa" placeholder="Nome da sua empresa" /></label>
