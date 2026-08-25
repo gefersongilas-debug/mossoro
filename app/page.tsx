@@ -4,7 +4,7 @@ import { FormEvent, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const WHATSAPP = "5598987827060";
+const WHATSAPP = "5598989030398";
 const logo = "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/LOGO_MOSSORO_PNG.png";
 
 const productCards = [
@@ -199,8 +199,13 @@ export default function Home() {
 
       <section className="final-cta" data-reveal-section><div className="wrap final-inner"><div><p className="eyebrow light" data-reveal-item>VAMOS COMEÇAR?</p><h2><SplitText text="Seu espaço pode" /><br /><SplitText text="trabalhar " /><em><SplitText text="melhor." /></em></h2></div><a href={cta} target="_blank" className="yellow-button" data-reveal-item>SOLICITAR UMA COTAÇÃO <b>→</b></a></div></section>
 
-      <footer><div className="wrap footer-inner"><img src={logo} alt="Mossoró" /><p>Av. Eng. Emiliano Macieira, 655 – Tirirical<br />São Luís – MA, 65055-215</p><a href="tel:+559832454276">(98) 3245-4276</a><a href={cta} target="_blank">WhatsApp: (98) 98782-7060</a></div></footer>
-      <a className="floating-whatsapp" href={cta} target="_blank" aria-label="Falar no WhatsApp">◔</a>
+      <footer><div className="wrap footer-inner"><img src={logo} alt="Mossoró" /><p>Av. Eng. Emiliano Macieira, 655 – Tirirical<br />São Luís – MA, 65055-215</p><a href="tel:+559832454276">(98) 3245-4276</a><a href={cta} target="_blank">WhatsApp: (98) 98903-0398</a></div></footer>
+      <a className="floating-whatsapp" href={cta} target="_blank" aria-label="Falar no WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12.017 2C6.484 2 2 6.484 2 12.017c0 1.982.578 3.83 1.573 5.383L2 22l4.723-1.552A9.943 9.943 0 0 0 12.017 22C17.55 22 22 17.549 22 12.017 22 6.484 17.549 2 12.017 2zm.001 18.06a8.03 8.03 0 0 1-4.084-1.119l-.293-.174-3.036.998.998-3.045-.19-.297A8.03 8.03 0 1 1 20.06 12.02c0 4.442-3.6 8.04-8.042 8.04z" />
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.198.297-.768.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+        </svg>
+      </a>
     </main>
   );
 }
