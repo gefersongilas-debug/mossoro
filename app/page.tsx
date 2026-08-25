@@ -13,6 +13,14 @@ const productCards = [
   { title: "Cadeiras corporativas", text: "Conforto, funcionalidade e uma apresentação profissional para cada ambiente da sua empresa.", ideal: "Postos de trabalho, clínicas, recepções e diretorias.", image: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/cadeira-de-escritorio.jpg", tag: "CADEIRAS" },
 ];
 
+const galleryImages = [
+  { src: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/avantti-1.jpg", alt: "Escritório executivo com mesa, armários e cadeira corporativa", label: "Escritórios executivos" },
+  { src: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/47156838473725d7ba6e15578f.jpg", alt: "Ambiente corporativo com estações de trabalho integradas", label: "Estações de trabalho" },
+  { src: "https://mossoroempresarial.com.br/wp-content/uploads/2022/11/Sofa-Cabine.png", alt: "Sofás em formato de cabine para espaços de concentração", label: "Concentração e privacidade" },
+  { src: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/fundo-cadeiras.jpg", alt: "Sala educacional equipada com mesas e cadeiras", label: "Ambientes educacionais" },
+  { src: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/banner.png", alt: "Sala colaborativa com cadeiras corporativas e elementos naturais", label: "Espaços colaborativos" },
+];
+
 const clientLogos = [
   { src: "/logos-clientes/Logotipo_Vale.svg.webp", alt: "Vale" },
   { src: "/logos-clientes/regular_642f24cc9fa5e8c1836873e6ff29c5c7.png", alt: "Ambev" },
@@ -152,9 +160,9 @@ export default function Home() {
         <div className="wrap hero-content">
           <div className="hero-copy">
             <p className="eyebrow">MOBILIÁRIO PARA EMPRESAS</p>
-            <h1><SplitText text="Seu ambiente de trabalho " /><em><SplitText text="fala" /></em><SplitText text=" sobre o seu negócio." /></h1>
+            <h1><SplitText text="Seu ambiente de trabalho fala sobre o seu negócio." /></h1>
             <p className="hero-lead">Equipamentos e móveis profissionais para empresas que precisam de mais organização, conforto e funcionalidade.</p>
-            <div className="hero-proof"><span>+10</span><p>anos oferecendo soluções<br />para ambientes profissionais</p></div>
+            <div className="hero-proof"><p>Mais de 10 anos oferecendo soluções para ambientes profissionais.</p></div>
           </div>
           <form className="quote-form" onSubmit={submit}>
             <div className="form-heading"><div><strong>Solicite sua cotação</strong><small>Fale com nossa equipe sem compromisso.</small></div></div>
@@ -169,7 +177,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="trust-strip"><div className="wrap trust-inner"><span>UMA SOLUÇÃO COMPLETA PARA O SEU ESPAÇO</span><div><b>MOBILIÁRIO</b><b>AÇO</b><b>CADEIRAS</b><b>PROJETOS</b></div><span className="delivery">● ENTREGA E MONTAGEM</span></div></section>
+      <section className="solutions-banner">
+        <div className="wrap solutions-banner-inner">
+          <div className="solutions-banner-copy"><span>SOLUÇÃO COMPLETA</span><strong>Tudo para o seu espaço profissional.</strong></div>
+          <ul className="solutions-banner-list" aria-label="Categorias de soluções">
+            <li>Mobiliário</li><li>Aço</li><li>Cadeiras</li><li>Projetos</li>
+          </ul>
+          <span className="solutions-banner-delivery">● Entrega e montagem</span>
+        </div>
+      </section>
 
       <section className="clients" data-reveal-section>
         <div className="wrap"><p className="eyebrow blue clients-eyebrow" data-reveal-item>EMPRESAS QUE CONFIAM NA MOSSORÓ</p></div>
@@ -193,11 +209,20 @@ export default function Home() {
         <div className="product-grid" data-card-grid>{productCards.map((product) => <article className="product" key={product.title}><div className="product-img"><img src={product.image} alt={product.title} /><span>{product.tag}</span></div><div className="product-info"><h3>{product.title}</h3><p>{product.text}</p><small><b>Ideal para:</b> {product.ideal}</small><a href={cta} target="_blank">QUERO UM ORÇAMENTO <b>→</b></a></div></article>)}</div>
       </div></section>
 
-      <section className="showcase" data-reveal-section><div className="showcase-media"></div><div className="showcase-shade"></div><div className="wrap showcase-content"><p className="eyebrow light" data-reveal-item>AMBIENTES QUE FUNCIONAM MELHOR</p><h2><SplitText text="Mais organização." /><br /><SplitText text="Mais conforto." /><br /><em><SplitText text="Mais resultado." /></em></h2><a href={cta} target="_blank" className="outline-button" data-reveal-item>SOLICITAR COTAÇÃO <b>→</b></a></div></section>
+      <section className="section photo-gallery" data-reveal-section>
+        <div className="wrap">
+          <div className="photo-gallery-heading" data-reveal-item><div><p className="eyebrow blue">AMBIENTES MOSSORÓ</p><h2><SplitText text="Soluções que transformam" /><br /><SplitText text="a experiência de cada espaço." /></h2></div><p>Conheça algumas possibilidades para criar ambientes mais funcionais, confortáveis e alinhados à rotina da sua empresa.</p></div>
+          <div className="photo-gallery-grid" data-card-grid>
+            {galleryImages.map((image, index) => <figure className={`photo-gallery-item photo-gallery-item-${index + 1}`} key={image.src}><img src={image.src} alt={image.alt} loading="lazy" /><figcaption>{image.label}</figcaption></figure>)}
+          </div>
+        </div>
+      </section>
 
-      <section className="section about" data-reveal-section><div className="wrap about-grid"><div className="about-visual" data-reveal-item><div className="visual-frame"></div><div className="visual-label"><b>+ de 10 anos</b><span>no mercado corporativo</span></div></div><div className="about-copy"><p className="eyebrow blue" data-reveal-item>QUEM SOMOS</p><h2><SplitText text="Mossoró Empresarial:" /><br /><em><SplitText text="mobiliário para quem leva o trabalho a sério." /></em></h2><p data-reveal-item>A Mossoró Empresarial oferece soluções em mobiliário para empresas e ambientes profissionais, reunindo diferentes categorias de produtos para atender desde necessidades pontuais até projetos completos.</p><p data-reveal-item>Nosso objetivo é tornar a compra mais simples: entender a sua necessidade, indicar as melhores soluções e acompanhar o processo até a entrega.</p><a href={cta} target="_blank" className="dark-button" data-reveal-item>CONHEÇA NOSSAS SOLUÇÕES <b>→</b></a></div></div></section>
+      <section className="showcase" data-reveal-section><div className="showcase-media"></div><div className="showcase-shade"></div><div className="wrap showcase-content"><p className="eyebrow light" data-reveal-item>AMBIENTES QUE FUNCIONAM MELHOR</p><h2><SplitText text="Mais organização." /><br /><SplitText text="Mais conforto." /><br /><SplitText text="Mais resultado." /></h2><a href={cta} target="_blank" className="outline-button" data-reveal-item>SOLICITAR COTAÇÃO <b>→</b></a></div></section>
 
-      <section className="final-cta" data-reveal-section><div className="wrap final-inner"><div><p className="eyebrow light" data-reveal-item>VAMOS COMEÇAR?</p><h2><SplitText text="Seu espaço pode" /><br /><SplitText text="trabalhar " /><em><SplitText text="melhor." /></em></h2></div><a href={cta} target="_blank" className="yellow-button" data-reveal-item>SOLICITAR UMA COTAÇÃO <b>→</b></a></div></section>
+      <section className="section about" data-reveal-section><div className="wrap about-grid"><div className="about-visual" data-reveal-item><div className="visual-frame"></div></div><div className="about-copy"><p className="eyebrow blue" data-reveal-item>QUEM SOMOS</p><h2><SplitText text="Mossoró Empresarial:" /><br /><em><SplitText text="mobiliário para quem leva o trabalho a sério." /></em></h2><p data-reveal-item>A Mossoró Empresarial oferece soluções em mobiliário para empresas e ambientes profissionais, reunindo diferentes categorias de produtos para atender desde necessidades pontuais até projetos completos.</p><p data-reveal-item>Nosso objetivo é tornar a compra mais simples: entender a sua necessidade, indicar as melhores soluções e acompanhar o processo até a entrega.</p><a href={cta} target="_blank" className="dark-button" data-reveal-item>CONHEÇA NOSSAS SOLUÇÕES <b>→</b></a></div></div></section>
+
+      <section className="final-cta" data-reveal-section><div className="wrap final-inner"><div><p className="eyebrow light" data-reveal-item>VAMOS COMEÇAR?</p><h2><SplitText text="Seu espaço pode" /><br /><SplitText text="trabalhar melhor." /></h2></div><a href={cta} target="_blank" className="yellow-button" data-reveal-item>SOLICITAR UMA COTAÇÃO <b>→</b></a></div></section>
 
       <footer><div className="wrap footer-inner"><img src={logo} alt="Mossoró" /><p>Av. Eng. Emiliano Macieira, 655 – Tirirical<br />São Luís – MA, 65055-215</p><a href="tel:+559832454276">(98) 3245-4276</a><a href={cta} target="_blank">WhatsApp: (98) 98903-0398</a></div></footer>
       <a className="floating-whatsapp" href={cta} target="_blank" aria-label="Falar no WhatsApp">
