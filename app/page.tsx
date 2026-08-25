@@ -13,6 +13,22 @@ const productCards = [
   { title: "Cadeiras corporativas", text: "Conforto, funcionalidade e uma apresentação profissional para cada ambiente da sua empresa.", ideal: "Postos de trabalho, clínicas, recepções e diretorias.", image: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/cadeira-de-escritorio.jpg", tag: "CADEIRAS" },
 ];
 
+const clientLogos = [
+  { src: "/logos-clientes/Logotipo_Vale.svg.webp", alt: "Vale" },
+  { src: "/logos-clientes/regular_642f24cc9fa5e8c1836873e6ff29c5c7.png", alt: "Ambev" },
+  { src: "/logos-clientes/coca-cola.png", alt: "Coca-Cola" },
+  { src: "/logos-clientes/Alcoa_logo_(2016).svg.webp", alt: "Alcoa" },
+  { src: "/logos-clientes/Logo-Ultracargo-para-fundo-Cinza-ou-Branco_PNG.png", alt: "Ultracargo" },
+  { src: "/logos-clientes/images.png", alt: "Eneva" },
+  { src: "/logos-clientes/LogoCarreiras.png", alt: "VLI" },
+  { src: "/logos-clientes/tracbel-2.png", alt: "Tracbel" },
+  { src: "/logos-clientes/IMG_3713.PNG", alt: "Canopus" },
+  { src: "/logos-clientes/IMG_3714.PNG", alt: "Ceuma Universidade" },
+  { src: "/logos-clientes/IMG_3715.PNG", alt: "Lucena Infraestrutura" },
+  { src: "/logos-clientes/IMG_3716.JPG.jpeg", alt: "Maple Bear" },
+  { src: "/logos-clientes/IMG_3717.JPG.jpeg", alt: "VIP Leilões" },
+];
+
 const benefits = [
   ["01", "Atendimento especializado", "Opções adequadas ao espaço, rotina e necessidade da sua empresa."],
   ["02", "Soluções em um só lugar", "Mobiliário corporativo, cadeiras, armários e linha de aço para seu projeto."],
@@ -154,6 +170,17 @@ export default function Home() {
       </section>
 
       <section className="trust-strip"><div className="wrap trust-inner"><span>UMA SOLUÇÃO COMPLETA PARA O SEU ESPAÇO</span><div><b>MOBILIÁRIO</b><b>AÇO</b><b>CADEIRAS</b><b>PROJETOS</b></div><span className="delivery">● ENTREGA E MONTAGEM</span></div></section>
+
+      <section className="clients" data-reveal-section>
+        <div className="wrap"><p className="eyebrow blue clients-eyebrow" data-reveal-item>EMPRESAS QUE CONFIAM NA MOSSORÓ</p></div>
+        <div className="clients-marquee" data-reveal-item>
+          <div className="clients-track">
+            {[...clientLogos, ...clientLogos].map((logo, index) => (
+              <div className="client-logo" key={`${logo.alt}-${index}`}><img src={logo.src} alt={logo.alt} loading="lazy" /></div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="section benefits" data-reveal-section><div className="wrap">
         <div className="section-intro" data-reveal-item><p className="eyebrow blue">POR QUE ESCOLHER A MOSSORÓ</p><h2><SplitText text="Muito mais do que móveis." /><br /><em><SplitText text="A solução certa" /></em><SplitText text=" para o seu ambiente." /></h2><p>Na Mossoró Empresarial, cada atendimento começa entendendo o que sua empresa realmente precisa.</p></div>
