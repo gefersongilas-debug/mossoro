@@ -117,3 +117,35 @@ footer{background:#182325}
   .product-img{height:250px}
   .about-visual{border-radius:20px}
 }
+
+/* Header flutuante com efeito glassmorphism. */
+main{padding-top:108px}
+.topbar{
+  position:fixed;
+  z-index:50;
+  top:16px;
+  left:18px;
+  right:18px;
+  width:auto;
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 22px;
+  border:1px solid rgba(255,255,255,.58);
+  border-radius:20px;
+  background:rgba(248,247,244,.72);
+  box-shadow:0 14px 40px rgba(20,34,36,.12);
+  backdrop-filter:blur(20px) saturate(130%);
+  -webkit-backdrop-filter:blur(20px) saturate(130%);
+}
+.hero{border-radius:30px}
+
+@media(max-width:850px){
+  main{padding-top:96px}
+  .topbar{top:12px;left:10px;right:10px;padding:0 18px;border-radius:17px}
+}
+
+@media(max-width:530px){
+  main{padding-top:88px}
+  .topbar{height:64px;top:10px;border-radius:15px}
+  .hero{border-radius:22px}
+}
