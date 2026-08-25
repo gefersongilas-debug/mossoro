@@ -169,7 +169,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="trust-strip"><div className="wrap trust-inner"><span>UMA SOLUÇÃO COMPLETA PARA O SEU ESPAÇO</span><div><b>MOBILIÁRIO</b><b>AÇO</b><b>CADEIRAS</b><b>PROJETOS</b></div><span className="delivery">● ENTREGA E MONTAGEM</span></div></section>
+      <section className="solutions-banner">
+        <div className="wrap solutions-banner-inner">
+          <div className="solutions-banner-copy"><span>SOLUÇÃO COMPLETA</span><strong>Tudo para o seu espaço profissional.</strong></div>
+          <ul className="solutions-banner-list" aria-label="Categorias de soluções">
+            <li>Mobiliário</li><li>Aço</li><li>Cadeiras</li><li>Projetos</li>
+          </ul>
+          <span className="solutions-banner-delivery">● Entrega e montagem</span>
+        </div>
+      </section>
 
       <section className="clients" data-reveal-section>
         <div className="wrap"><p className="eyebrow blue clients-eyebrow" data-reveal-item>EMPRESAS QUE CONFIAM NA MOSSORÓ</p></div>

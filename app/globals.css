@@ -149,3 +149,16 @@ main{padding-top:108px}
   .topbar{height:64px;top:10px;border-radius:15px}
   .hero{border-radius:22px}
 }
+
+/* Banner de soluções adaptado ao design system moderno. */
+.solutions-banner{position:relative;overflow:hidden;margin:18px;border:1px solid rgba(28,40,42,.08);border-radius:24px;background:linear-gradient(135deg,#ebe7de,#dfd9cc);color:#263436;box-shadow:0 12px 34px rgba(20,34,36,.07)}
+.solutions-banner:before{content:'';position:absolute;right:-70px;top:-120px;width:310px;height:310px;border-radius:50%;background:rgba(255,255,255,.32);pointer-events:none}
+.solutions-banner-inner{position:relative;z-index:1;min-height:132px;display:grid;grid-template-columns:250px 1fr auto;align-items:center;gap:34px}
+.solutions-banner-copy span{display:block;margin-bottom:7px;color:#8a634e;font-size:10px;font-weight:700;letter-spacing:1.8px}
+.solutions-banner-copy strong{display:block;font-size:18px;line-height:1.3}
+.solutions-banner-list{display:flex;align-items:center;gap:10px;margin:0;padding:0;list-style:none}
+.solutions-banner-list li{padding:11px 16px;border:1px solid rgba(38,52,54,.1);border-radius:999px;background:rgba(255,255,255,.58);font-size:11px;font-weight:700;letter-spacing:.65px;text-transform:uppercase;box-shadow:0 5px 16px rgba(20,34,36,.04)}
+.solutions-banner-delivery{white-space:nowrap;color:#596967;font-size:10px;font-weight:700;letter-spacing:.75px;text-transform:uppercase}
+@media(max-width:980px){.solutions-banner-inner{grid-template-columns:1fr auto;padding:28px 0}.solutions-banner-list{grid-column:1/-1;grid-row:2;flex-wrap:wrap}.solutions-banner-delivery{grid-column:2;grid-row:1}}
+@media(max-width:850px){.solutions-banner{margin-left:10px;margin-right:10px}}
+@media(max-width:530px){.solutions-banner{margin:12px 10px;border-radius:18px}.solutions-banner-inner{grid-template-columns:1fr;gap:20px;padding:25px 0}.solutions-banner-list{grid-column:1;grid-row:auto;gap:8px}.solutions-banner-list li{padding:9px 12px;font-size:10px}.solutions-banner-delivery{grid-column:1;grid-row:auto}}
