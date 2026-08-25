@@ -13,6 +13,14 @@ const productCards = [
   { title: "Cadeiras corporativas", text: "Conforto, funcionalidade e uma apresentação profissional para cada ambiente da sua empresa.", ideal: "Postos de trabalho, clínicas, recepções e diretorias.", image: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/cadeira-de-escritorio.jpg", tag: "CADEIRAS" },
 ];
 
+const galleryImages = [
+  { src: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/avantti-1.jpg", alt: "Escritório executivo com mesa, armários e cadeira corporativa", label: "Escritórios executivos" },
+  { src: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/47156838473725d7ba6e15578f.jpg", alt: "Ambiente corporativo com estações de trabalho integradas", label: "Estações de trabalho" },
+  { src: "https://mossoroempresarial.com.br/wp-content/uploads/2022/11/Sofa-Cabine.png", alt: "Sofás em formato de cabine para espaços de concentração", label: "Concentração e privacidade" },
+  { src: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/fundo-cadeiras.jpg", alt: "Sala educacional equipada com mesas e cadeiras", label: "Ambientes educacionais" },
+  { src: "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/banner.png", alt: "Sala colaborativa com cadeiras corporativas e elementos naturais", label: "Espaços colaborativos" },
+];
+
 const clientLogos = [
   { src: "/logos-clientes/Logotipo_Vale.svg.webp", alt: "Vale" },
   { src: "/logos-clientes/regular_642f24cc9fa5e8c1836873e6ff29c5c7.png", alt: "Ambev" },
@@ -200,6 +208,15 @@ export default function Home() {
         <div className="product-heading" data-reveal-item><div><p className="eyebrow orange">NOSSAS SOLUÇÕES</p><h2><SplitText text="Escolha o que" /><br /><em><SplitText text="sua empresa precisa." /></em></h2></div><p>Produtos para transformar a rotina e a presença do seu ambiente profissional.</p></div>
         <div className="product-grid" data-card-grid>{productCards.map((product) => <article className="product" key={product.title}><div className="product-img"><img src={product.image} alt={product.title} /><span>{product.tag}</span></div><div className="product-info"><h3>{product.title}</h3><p>{product.text}</p><small><b>Ideal para:</b> {product.ideal}</small><a href={cta} target="_blank">QUERO UM ORÇAMENTO <b>→</b></a></div></article>)}</div>
       </div></section>
+
+      <section className="section photo-gallery" data-reveal-section>
+        <div className="wrap">
+          <div className="photo-gallery-heading" data-reveal-item><div><p className="eyebrow blue">AMBIENTES MOSSORÓ</p><h2><SplitText text="Soluções que transformam" /><br /><SplitText text="a experiência de cada espaço." /></h2></div><p>Conheça algumas possibilidades para criar ambientes mais funcionais, confortáveis e alinhados à rotina da sua empresa.</p></div>
+          <div className="photo-gallery-grid" data-card-grid>
+            {galleryImages.map((image, index) => <figure className={`photo-gallery-item photo-gallery-item-${index + 1}`} key={image.src}><img src={image.src} alt={image.alt} loading="lazy" /><figcaption>{image.label}</figcaption></figure>)}
+          </div>
+        </div>
+      </section>
 
       <section className="showcase" data-reveal-section><div className="showcase-media"></div><div className="showcase-shade"></div><div className="wrap showcase-content"><p className="eyebrow light" data-reveal-item>AMBIENTES QUE FUNCIONAM MELHOR</p><h2><SplitText text="Mais organização." /><br /><SplitText text="Mais conforto." /><br /><SplitText text="Mais resultado." /></h2><a href={cta} target="_blank" className="outline-button" data-reveal-item>SOLICITAR COTAÇÃO <b>→</b></a></div></section>
 

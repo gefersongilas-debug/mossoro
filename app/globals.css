@@ -162,3 +162,19 @@ main{padding-top:108px}
 @media(max-width:980px){.solutions-banner-inner{grid-template-columns:1fr auto;padding:28px 0}.solutions-banner-list{grid-column:1/-1;grid-row:2;flex-wrap:wrap}.solutions-banner-delivery{grid-column:2;grid-row:1}}
 @media(max-width:850px){.solutions-banner{margin-left:10px;margin-right:10px}}
 @media(max-width:530px){.solutions-banner{margin:12px 10px;border-radius:18px}.solutions-banner-inner{grid-template-columns:1fr;gap:20px;padding:25px 0}.solutions-banner-list{grid-column:1;grid-row:auto;gap:8px}.solutions-banner-list li{padding:9px 12px;font-size:10px}.solutions-banner-delivery{grid-column:1;grid-row:auto}}
+
+/* Mosaico editorial com imagens oficiais da Mossoró. */
+.photo-gallery{padding-top:30px;background:#efede7;margin:0 18px 18px;border-radius:30px}
+.photo-gallery-heading{display:flex;align-items:end;justify-content:space-between;gap:50px;margin-bottom:42px}
+.photo-gallery-heading>div{max-width:760px}
+.photo-gallery-heading>p{max-width:350px;margin:0 0 5px;color:#667573;font-size:14px;line-height:1.7}
+.photo-gallery-grid{display:grid;grid-template-columns:1.25fr .75fr .9fr;grid-template-rows:250px 250px 280px;grid-template-areas:'main main work' 'main main focus' 'school collab collab';gap:16px}
+.photo-gallery-item{position:relative;min-width:0;margin:0;overflow:hidden;border-radius:22px;background:#d9d9d4}
+.photo-gallery-item-1{grid-area:main}.photo-gallery-item-2{grid-area:work}.photo-gallery-item-3{grid-area:focus}.photo-gallery-item-4{grid-area:school}.photo-gallery-item-5{grid-area:collab}
+.photo-gallery-item img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.photo-gallery-item-3 img{object-position:center 60%}.photo-gallery-item-4 img{object-position:center 48%}
+.photo-gallery-item:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 58%,rgba(19,31,33,.58));pointer-events:none}
+.photo-gallery-item:hover img{transform:scale(1.035)}
+.photo-gallery-item figcaption{position:absolute;z-index:1;left:20px;bottom:18px;padding:9px 13px;border:1px solid rgba(255,255,255,.34);border-radius:999px;background:rgba(25,38,40,.42);color:#fff;font-size:10px;font-weight:600;letter-spacing:.65px;text-transform:uppercase;backdrop-filter:blur(10px)}
+@media(max-width:850px){.photo-gallery{margin-left:10px;margin-right:10px}.photo-gallery-heading{display:block}.photo-gallery-heading>p{margin-top:22px}.photo-gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:380px 240px 240px;grid-template-areas:'main main' 'work focus' 'school collab'}}
+@media(max-width:530px){.photo-gallery{margin:0 10px 12px;padding-top:10px;border-radius:22px}.photo-gallery-heading{margin-bottom:30px}.photo-gallery-grid{display:grid;grid-template-columns:1fr;grid-template-rows:300px repeat(4,220px);grid-template-areas:'main' 'work' 'focus' 'school' 'collab';gap:12px}.photo-gallery-item{border-radius:17px}.photo-gallery-item figcaption{left:14px;bottom:14px}}
