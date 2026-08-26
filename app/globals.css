@@ -186,8 +186,8 @@ main{padding-top:108px}
 .legacy-page .wrap{width:min(1160px,calc(100% - 48px))}
 .legacy-page .topbar{position:relative;top:auto;left:auto;right:auto;width:auto;max-width:none;height:88px;margin:0;padding:0 max(24px,calc((100vw - 1160px)/2));border:0;border-bottom:1px solid #e7edf3;border-radius:0;background:rgba(255,255,255,.97);box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
 .legacy-page .header-cta,.legacy-page .dark-button,.legacy-page .yellow-button,.legacy-page .outline-button,.legacy-page .quote-form button{border-radius:0}
-.legacy-page .header-cta{padding:14px 18px;background:var(--navy)}
-.legacy-page .header-cta b,.legacy-page .dark-button b,.legacy-page .outline-button b{color:var(--yellow)}
+.legacy-page .header-cta{padding:14px 18px;background:var(--yellow);color:var(--navy)}
+.legacy-page .header-cta b,.legacy-page .dark-button b,.legacy-page .outline-button b,.legacy-page .yellow-button b{color:var(--navy)}
 .legacy-page .hero{min-height:675px;margin:0;border-radius:0;background:var(--navy)}
 .legacy-page .hero:after{right:-8%;top:auto;bottom:-18%;width:62%;height:640px;border-radius:0;clip-path:polygon(24% 0,100% 0,100% 100%,0 100%);opacity:.78;background-position:center}
 .legacy-page .hero:before{background:linear-gradient(90deg,#03152c 0%,#03152c 46%,rgba(3,21,44,.54) 69%,rgba(3,21,44,.2))}
@@ -196,7 +196,7 @@ main{padding-top:108px}
 .legacy-page .hero-content{grid-template-columns:minmax(0,1fr) 400px;gap:80px;min-height:675px}
 .legacy-page .eyebrow{color:var(--yellow)}
 .legacy-page .eyebrow.blue{color:var(--blue)}
-.legacy-page .eyebrow.orange{color:var(--orange)}
+.legacy-page .eyebrow.orange{color:var(--yellow)}
 .legacy-page .eyebrow.light{color:#f5d800}
 .legacy-page .hero-lead{color:#d1d8e0}
 .legacy-page .hero-proof{margin-top:34px}
@@ -204,7 +204,8 @@ main{padding-top:108px}
 .legacy-page .quote-form{padding:27px 28px 20px;border-radius:0;background:rgba(255,255,255,.99);box-shadow:0 24px 60px rgba(0,0,0,.3);backdrop-filter:none}
 .legacy-page .quote-form:before{display:block}
 .legacy-page .quote-form input{border-radius:0;background:#fff;border-color:#d9e0e8}
-.legacy-page .quote-form button{background:var(--orange)}
+.legacy-page .quote-form button{background:var(--yellow);color:var(--navy)}
+.legacy-page .quote-form button:hover{box-shadow:0 9px 20px rgba(4,26,53,.18)}
 .legacy-page .solutions-banner{margin:0;border:0;border-bottom:6px solid var(--yellow);border-radius:0;background:var(--navy);color:#fff;box-shadow:none}
 .legacy-page .solutions-banner:before{display:none}
 .legacy-page .solutions-banner:after{content:'';position:absolute;top:-80px;right:14%;width:220px;height:220px;border:1px solid rgba(246,214,0,.2);border-radius:50%}
@@ -219,8 +220,9 @@ main{padding-top:108px}
 .legacy-page .benefit-grid{gap:0;border-top:1px solid #d4dde5;border-bottom:1px solid #d4dde5}
 .legacy-page .benefit{min-height:234px;padding:28px 20px 27px!important;border:0!important;border-right:1px solid #d4dde5!important;border-radius:0;background:transparent;box-shadow:none}
 .legacy-page .benefit:first-child{padding-left:0!important}.legacy-page .benefit:last-child{border-right:0!important}
+.legacy-page .benefit span{color:var(--yellow)}
 .legacy-page .section h2 em,.legacy-page .about-copy h2 em{color:var(--blue)}
-.legacy-page .product-heading h2 em{color:var(--orange)}
+.legacy-page .product-heading h2 em{color:var(--yellow)}
 .legacy-page .product-grid{gap:22px}
 .legacy-page .product{overflow:visible;border:1px solid #dce3ea;border-radius:0;background:#fff;box-shadow:none}
 .legacy-page .product:hover{border-color:#c8d5e2;box-shadow:0 20px 40px rgba(11,26,47,.1)}
@@ -232,10 +234,10 @@ main{padding-top:108px}
 .legacy-page .showcase{height:535px;margin:0;border-radius:0}
 .legacy-page .showcase-media{filter:saturate(.6)}
 .legacy-page .showcase-shade{background:linear-gradient(90deg,rgba(3,22,47,.96),rgba(3,22,47,.73) 45%,rgba(3,22,47,.08)),linear-gradient(0deg,rgba(0,0,0,.32),transparent)}
-.legacy-page .outline-button{border-color:var(--yellow);background:transparent;backdrop-filter:none}
+.legacy-page .outline-button{border-color:var(--yellow);background:var(--yellow);color:var(--navy);backdrop-filter:none}
 .legacy-page .about-visual{border-radius:0;box-shadow:18px 18px 0 var(--soft);overflow:visible}
 .legacy-page .visual-frame{border-radius:0}
-.legacy-page .dark-button{background:var(--navy)}
+.legacy-page .dark-button{background:var(--yellow);color:var(--navy)}
 .legacy-page .final-cta{margin:0;border-radius:0;background:linear-gradient(100deg,#031a37,#063163)}
 .legacy-page .yellow-button{background:var(--yellow);color:var(--navy)}
 .legacy-page footer{background:#03152d}
