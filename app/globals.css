@@ -64,7 +64,7 @@ body{background:#f8f7f4}
 .quote-form{border-radius:22px;padding:30px 30px 24px;box-shadow:0 24px 70px rgba(8,18,19,.24);background:rgba(250,249,246,.96);backdrop-filter:blur(12px)}
 .quote-form:before{display:none}
 .quote-form input{border-radius:10px;background:#fff;border-color:#d9ddda}
-.quote-form button{background:#a96347}
+.quote-form button{background:#ff740d}
 .trust-strip{margin:18px;border-radius:18px;background:#e8e3d7;color:#263436}
 .delivery{color:#52605f}
 .clients{background:#f8f7f4}
@@ -75,7 +75,8 @@ body{background:#f8f7f4}
 .benefit{min-height:230px;padding:26px 22px!important;border:1px solid rgba(28,40,42,.08)!important;border-radius:18px;background:rgba(255,255,255,.55)}
 .benefit:hover{background:#fff;box-shadow:0 16px 35px rgba(24,38,40,.08)}
 .eyebrow.blue,.section h2 em,.about-copy h2 em{color:#526f6b}
-.eyebrow.orange,.product-heading h2 em{color:#a96347}
+.eyebrow.orange{color:#a96347}
+.product-heading h2 em{color:var(--yellow)}
 .product-grid{gap:26px}
 .product{border:1px solid rgba(28,40,42,.1);border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 10px 32px rgba(24,38,40,.05)}
 .product:hover{border-color:rgba(28,40,42,.12);box-shadow:0 22px 48px rgba(24,38,40,.11)}
