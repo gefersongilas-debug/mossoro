@@ -244,3 +244,13 @@ main{padding-top:108px}
 @media(max-width:980px){.legacy-page .solutions-banner-inner{grid-template-columns:1fr auto;padding:28px 0}.legacy-page .solutions-banner-delivery{grid-column:2;grid-row:1}}
 @media(max-width:850px){.legacy-page .topbar{height:72px;padding:0 max(24px,calc((100vw - 1160px)/2))}.legacy-page .hero{min-height:820px;margin:0}.legacy-page .hero:after{inset:auto auto -90px 0;width:100%;height:370px;opacity:.45}.legacy-page .hero:before{background:linear-gradient(90deg,#03152c 0%,#03152c 46%,rgba(3,21,44,.54) 69%,rgba(3,21,44,.2))}.legacy-page .hero-content{grid-template-columns:1fr;gap:35px;padding:70px 0}.legacy-page .benefits,.legacy-page .showcase,.legacy-page .final-cta{margin:0}.legacy-page .product-img{height:290px}}
 @media(max-width:530px){.legacy-page .wrap{width:min(100% - 32px,1160px)}.legacy-page .topbar{height:72px;padding:0 16px;border-radius:0}.legacy-page .hero{border-radius:0}.legacy-page .quote-form{padding:27px 28px 20px}.legacy-page .solutions-banner{margin:0;border-radius:0}.legacy-page .solutions-banner-inner{grid-template-columns:1fr;gap:20px;padding:26px 0}.legacy-page .solutions-banner-list li{border-radius:0}.legacy-page .benefit,.legacy-page .benefit:nth-child(even){padding:22px 0!important;border-right:0!important}.legacy-page .about-visual{border-radius:0}.legacy-page .product{border-radius:0}.legacy-page .product-img{height:290px}}
+
+/* Botão flutuante de WhatsApp com rótulo textual. */
+.floating-whatsapp{width:auto;height:auto;border-radius:999px;display:inline-flex;align-items:center;gap:10px;padding:13px 20px 13px 16px;font-family:'Poppins',Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:.2px;line-height:1;white-space:nowrap}
+.floating-whatsapp svg{flex:0 0 auto;width:23px;height:23px}
+.floating-whatsapp:hover{transform:translateY(-2px)}
+@media(max-width:530px){.floating-whatsapp{gap:8px;padding:11px 16px 11px 13px;font-size:12px}.floating-whatsapp svg{width:20px;height:20px}}
+
+/* Mensagens de erro do formulário (validação e falha de envio). */
+.error{font-size:12px;text-align:center;color:#c0392b;margin:9px 0 0}
+.quote-form input[aria-invalid="true"]{border-color:#c0392b;box-shadow:0 0 0 3px rgba(192,57,43,.12)}

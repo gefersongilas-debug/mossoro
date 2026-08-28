@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useLayoutEffect, useRef, useState } from "react";
+import { AnchorHTMLAttributes, FormEvent, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -49,6 +49,95 @@ function whatsappLink(message: string) {
   return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`;
 }
 
+/* Parâmetros de rastreio capturados da URL e mantidos durante toda a sessão. */
+const TRACKING_STORAGE_KEY = "mossoro:tracking";
+const UTM_FIELDS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "fbclid"] as const;
+const TRACKING_FIELDS = [...UTM_FIELDS, "referrer", "landing_page"] as const;
+
+type TrackingData = Record<(typeof TRACKING_FIELDS)[number], string>;
+
+const EMPTY_TRACKING = Object.fromEntries(TRACKING_FIELDS.map((field) => [field, ""])) as TrackingData;
+
+/* A primeira visita com UTMs vence: cliques internos sem parâmetros não apagam a origem do lead. */
+function loadTracking(): TrackingData {
+  const tracking = { ...EMPTY_TRACKING };
+  if (typeof window === "undefined") return tracking;
+
+  let stored: Partial<TrackingData> = {};
+  try {
+    stored = JSON.parse(window.sessionStorage.getItem(TRACKING_STORAGE_KEY) ?? "{}");
+  } catch {
+    stored = {};
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const urlHasUtm = UTM_FIELDS.some((field) => params.get(field));
+  UTM_FIELDS.forEach((field) => {
+    tracking[field] = (urlHasUtm ? params.get(field) : stored[field]) ?? "";
+  });
+  tracking.referrer = stored.referrer || document.referrer || "";
+  tracking.landing_page = stored.landing_page || window.location.href;
+
+  try {
+    window.sessionStorage.setItem(TRACKING_STORAGE_KEY, JSON.stringify(tracking));
+  } catch {
+    /* sessionStorage indisponível (modo privado): segue apenas em memória. */
+  }
+
+  return tracking;
+}
+
+function pushDataLayer(payload: Record<string, unknown>) {
+  if (typeof window === "undefined") return;
+  const target = window as unknown as { dataLayer?: Record<string, unknown>[] };
+  target.dataLayer = target.dataLayer || [];
+  target.dataLayer.push(payload);
+}
+
+/* Nome e local do botão viajam no evento para virar gatilho/variável no GTM. */
+function trackButtonClick(buttonName: string, buttonLocation: string) {
+  pushDataLayer({ event: "click_botao", button_text: buttonName, button_name: buttonName, button_location: buttonLocation });
+}
+
+type CtaLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+  buttonName: string;
+  buttonLocation: string;
+  children: ReactNode;
+};
+
+function CtaLink({ buttonName, buttonLocation, children, onClick, ...rest }: CtaLinkProps) {
+  return (
+    <a
+      {...rest}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-gtm-event="click_botao"
+      data-gtm-button={buttonName}
+      data-gtm-location={buttonLocation}
+      onClick={(event) => {
+        trackButtonClick(buttonName, buttonLocation);
+        onClick?.(event);
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
+/* Aceita apenas dígitos e devolve (00) 00000-0000 / (00) 0000-0000. */
+function formatPhone(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 11);
+  if (!digits) return "";
+  if (digits.length <= 2) return `(${digits}`;
+
+  const isMobile = digits.length > 10;
+  const middle = isMobile ? digits.slice(2, 7) : digits.slice(2, 6);
+  const end = isMobile ? digits.slice(7) : digits.slice(6);
+  const formatted = `(${digits.slice(0, 2)}) ${middle}`;
+
+  return end ? `${formatted}-${end}` : formatted;
+}
+
 function SplitText({ text }: { text: string }) {
   const segments = text.split(/(\s+)/).filter(Boolean);
 
@@ -75,7 +164,12 @@ function SplitText({ text }: { text: string }) {
 
 export default function Home() {
   const [sent, setSent] = useState(false);
+  const [tracking, setTracking] = useState<TrackingData>(EMPTY_TRACKING);
+  const [phone, setPhone] = useState("");
+  const [phoneError, setPhoneError] = useState(false);
   const page = useRef<HTMLElement>(null);
+
+  useEffect(() => setTracking(loadTracking()), []);
 
   useLayoutEffect(() => {
     if (!page.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -123,20 +217,42 @@ export default function Home() {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const data = new FormData(form);
+
+    const phoneDigits = String(data.get("whatsapp") ?? "").replace(/\D/g, "");
+    if (phoneDigits.length < 10) {
+      setPhoneError(true);
+      return;
+    }
+    setPhoneError(false);
+
+    const buttonName = "Quero falar com a Mossoró";
+    trackButtonClick(buttonName, "formulario-hero");
     setSending(true);
     setError(false);
     try {
       const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome: data.get("nome"), whatsapp: data.get("whatsapp"), empresa: data.get("empresa") || "", origem: "landing-page-mossoro", enviadoEm: new Date().toISOString() }),
+        body: JSON.stringify({
+          nome: data.get("nome"),
+          email: data.get("email"),
+          whatsapp: data.get("whatsapp"),
+          whatsappDigitos: phoneDigits,
+          empresa: data.get("empresa") || "",
+          origem: "landing-page-mossoro",
+          enviadoEm: new Date().toISOString(),
+          ...tracking,
+        }),
       });
       if (!response.ok) throw new Error("Falha ao enviar lead");
-    const message = `Olá, sou ${data.get("nome")}. Gostaria de solicitar uma cotação para mobiliário empresarial.${data.get("empresa") ? ` Minha empresa é ${data.get("empresa")}.` : ""}`;
-    setSent(true);
-    window.open(whatsappLink(message), "_blank", "noopener,noreferrer");
-    event.currentTarget.reset();
+      const message = `Olá, sou ${data.get("nome")}. Gostaria de solicitar uma cotação para mobiliário empresarial.${data.get("empresa") ? ` Minha empresa é ${data.get("empresa")}.` : ""}`;
+      pushDataLayer({ event: "gerar_lead", button_text: buttonName, button_name: buttonName, button_location: "formulario-hero", ...tracking });
+      setSent(true);
+      window.open(whatsappLink(message), "_blank", "noopener,noreferrer");
+      form.reset();
+      setPhone("");
     } catch { setError(true); }
     finally { setSending(false); }
   }
@@ -151,7 +267,7 @@ export default function Home() {
         </a>
         <div className="topbar-right">
           <span className="support"><i>●</i> Atendimento especializado</span>
-          <a className="header-cta" href={cta} target="_blank">Falar no WhatsApp <b>↗</b></a>
+          <CtaLink className="header-cta" href={cta} buttonName="Falar no WhatsApp" buttonLocation="header">Falar no WhatsApp <b>↗</b></CtaLink>
         </div>
       </header>
 
@@ -166,10 +282,24 @@ export default function Home() {
           </div>
           <form className="quote-form" onSubmit={submit}>
             <div className="form-heading"><div><strong>Solicite sua cotação</strong><small>Fale com nossa equipe sem compromisso.</small></div></div>
+            {TRACKING_FIELDS.map((field) => <input key={field} type="hidden" name={field} value={tracking[field]} readOnly />)}
             <label>Seu nome<input required name="nome" placeholder="Como podemos chamar você?" /></label>
-            <label>WhatsApp<input required name="whatsapp" type="tel" placeholder="(00) 00000-0000" /></label>
+            <label>E-mail<input required name="email" type="email" autoComplete="email" placeholder="voce@suaempresa.com.br" /></label>
+            <label>WhatsApp<input
+              required
+              name="whatsapp"
+              type="tel"
+              inputMode="numeric"
+              autoComplete="tel"
+              maxLength={15}
+              placeholder="(00) 00000-0000"
+              value={phone}
+              onChange={(event) => { setPhone(formatPhone(event.target.value)); setPhoneError(false); }}
+              aria-invalid={phoneError}
+            /></label>
+            {phoneError && <p className="error">Informe um WhatsApp válido com DDD.</p>}
             <label>Empresa <span>(opcional)</span><input name="empresa" placeholder="Nome da sua empresa" /></label>
-          <button type="submit" disabled={sending}>{sending ? "ENVIANDO..." : "QUERO FALAR COM A MOSSORÓ"} {!sending && <b>→</b>}</button>
+          <button type="submit" disabled={sending} data-gtm-event="click_botao" data-gtm-button="Quero falar com a Mossoró" data-gtm-location="formulario-hero">{sending ? "ENVIANDO..." : "QUERO FALAR COM A MOSSORÓ"} {!sending && <b>→</b>}</button>
           {sent && <p className="success">Seu WhatsApp foi aberto. Até já!</p>}
           {error && <p className="error">Não foi possível enviar agora. Tente novamente.</p>}
             <small className="privacy">Seus dados são usados apenas para este atendimento.</small>
@@ -201,12 +331,12 @@ export default function Home() {
       <section className="section benefits" data-reveal-section><div className="wrap">
         <div className="section-intro" data-reveal-item><p className="eyebrow blue">POR QUE ESCOLHER A MOSSORÓ</p><h2><SplitText text="Muito mais do que móveis." /><br /><em><SplitText text="A solução certa" /></em><SplitText text=" para o seu ambiente." /></h2><p>Na Mossoró Empresarial, cada atendimento começa entendendo o que sua empresa realmente precisa.</p></div>
         <div className="benefit-grid" data-card-grid>{benefits.map(([number, title, text]) => <article className="benefit" key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
-        <a href={cta} target="_blank" className="text-link" data-reveal-item>FALE COM NOSSA EQUIPE <b>→</b></a>
+        <CtaLink href={cta} className="text-link" data-reveal-item buttonName="Fale com nossa equipe" buttonLocation="beneficios">FALE COM NOSSA EQUIPE <b>→</b></CtaLink>
       </div></section>
 
       <section className="section products" id="produtos" data-reveal-section><div className="wrap">
         <div className="product-heading" data-reveal-item><div><p className="eyebrow orange">NOSSAS SOLUÇÕES</p><h2><SplitText text="Escolha o que" /><br /><em><SplitText text="sua empresa precisa." /></em></h2></div><p>Produtos para transformar a rotina e a presença do seu ambiente profissional.</p></div>
-        <div className="product-grid" data-card-grid>{productCards.map((product) => <article className="product" key={product.title}><div className="product-img"><img src={product.image} alt={product.title} /><span>{product.tag}</span></div><div className="product-info"><h3>{product.title}</h3><p>{product.text}</p><small><b>Ideal para:</b> {product.ideal}</small><a href={cta} target="_blank">QUERO UM ORÇAMENTO <b>→</b></a></div></article>)}</div>
+        <div className="product-grid" data-card-grid>{productCards.map((product) => <article className="product" key={product.title}><div className="product-img"><img src={product.image} alt={product.title} /><span>{product.tag}</span></div><div className="product-info"><h3>{product.title}</h3><p>{product.text}</p><small><b>Ideal para:</b> {product.ideal}</small><CtaLink href={cta} buttonName="Quero um orçamento" buttonLocation={`produtos-${product.tag.toLowerCase()}`}>QUERO UM ORÇAMENTO <b>→</b></CtaLink></div></article>)}</div>
       </div></section>
 
       <section className="section photo-gallery" data-reveal-section>
@@ -218,19 +348,20 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="showcase" data-reveal-section><div className="showcase-media"></div><div className="showcase-shade"></div><div className="wrap showcase-content"><p className="eyebrow light" data-reveal-item>AMBIENTES QUE FUNCIONAM MELHOR</p><h2><SplitText text="Mais organização." /><br /><SplitText text="Mais conforto." /><br /><SplitText text="Mais resultado." /></h2><a href={cta} target="_blank" className="outline-button" data-reveal-item>SOLICITAR COTAÇÃO <b>→</b></a></div></section>
+      <section className="showcase" data-reveal-section><div className="showcase-media"></div><div className="showcase-shade"></div><div className="wrap showcase-content"><p className="eyebrow light" data-reveal-item>AMBIENTES QUE FUNCIONAM MELHOR</p><h2><SplitText text="Mais organização." /><br /><SplitText text="Mais conforto." /><br /><SplitText text="Mais resultado." /></h2><CtaLink href={cta} className="outline-button" data-reveal-item buttonName="Solicitar cotação" buttonLocation="showcase">SOLICITAR COTAÇÃO <b>→</b></CtaLink></div></section>
 
-      <section className="section about" data-reveal-section><div className="wrap about-grid"><div className="about-visual" data-reveal-item><div className="visual-frame"></div></div><div className="about-copy"><p className="eyebrow blue" data-reveal-item>QUEM SOMOS</p><h2><SplitText text="Mossoró Empresarial:" /><br /><em><SplitText text="mobiliário para quem leva o trabalho a sério." /></em></h2><p data-reveal-item>A Mossoró Empresarial oferece soluções em mobiliário para empresas e ambientes profissionais, reunindo diferentes categorias de produtos para atender desde necessidades pontuais até projetos completos.</p><p data-reveal-item>Nosso objetivo é tornar a compra mais simples: entender a sua necessidade, indicar as melhores soluções e acompanhar o processo até a entrega.</p><a href={cta} target="_blank" className="dark-button" data-reveal-item>CONHEÇA NOSSAS SOLUÇÕES <b>→</b></a></div></div></section>
+      <section className="section about" data-reveal-section><div className="wrap about-grid"><div className="about-visual" data-reveal-item><div className="visual-frame"></div></div><div className="about-copy"><p className="eyebrow blue" data-reveal-item>QUEM SOMOS</p><h2><SplitText text="Mossoró Empresarial:" /><br /><em><SplitText text="mobiliário para quem leva o trabalho a sério." /></em></h2><p data-reveal-item>A Mossoró Empresarial oferece soluções em mobiliário para empresas e ambientes profissionais, reunindo diferentes categorias de produtos para atender desde necessidades pontuais até projetos completos.</p><p data-reveal-item>Nosso objetivo é tornar a compra mais simples: entender a sua necessidade, indicar as melhores soluções e acompanhar o processo até a entrega.</p><CtaLink href={cta} className="dark-button" data-reveal-item buttonName="Conheça nossas soluções" buttonLocation="sobre">CONHEÇA NOSSAS SOLUÇÕES <b>→</b></CtaLink></div></div></section>
 
-      <section className="final-cta" data-reveal-section><div className="wrap final-inner"><div><p className="eyebrow light" data-reveal-item>VAMOS COMEÇAR?</p><h2><SplitText text="Seu espaço pode" /><br /><SplitText text="trabalhar melhor." /></h2></div><a href={cta} target="_blank" className="yellow-button" data-reveal-item>SOLICITAR UMA COTAÇÃO <b>→</b></a></div></section>
+      <section className="final-cta" data-reveal-section><div className="wrap final-inner"><div><p className="eyebrow light" data-reveal-item>VAMOS COMEÇAR?</p><h2><SplitText text="Seu espaço pode" /><br /><SplitText text="trabalhar melhor." /></h2></div><CtaLink href={cta} className="yellow-button" data-reveal-item buttonName="Solicitar uma cotação" buttonLocation="cta-final">SOLICITAR UMA COTAÇÃO <b>→</b></CtaLink></div></section>
 
-      <footer><div className="wrap footer-inner"><img src={logo} alt="Mossoró" /><p>Av. Eng. Emiliano Macieira, 655 – Tirirical<br />São Luís – MA, 65055-215</p><a href="tel:+559832454276">(98) 3245-4276</a><a href={cta} target="_blank">WhatsApp: (98) 98903-0398</a></div></footer>
-      <a className="floating-whatsapp" href={cta} target="_blank" aria-label="Falar no WhatsApp">
+      <footer><div className="wrap footer-inner"><img src={logo} alt="Mossoró" /><p>Av. Eng. Emiliano Macieira, 655 – Tirirical<br />São Luís – MA, 65055-215</p><a href="tel:+559832454276" data-gtm-event="click_botao" data-gtm-button="Telefone fixo" data-gtm-location="rodape" onClick={() => trackButtonClick("Telefone fixo", "rodape")}>(98) 3245-4276</a><CtaLink href={cta} buttonName="WhatsApp rodapé" buttonLocation="rodape">WhatsApp: (98) 98903-0398</CtaLink></div></footer>
+      <CtaLink className="floating-whatsapp" href={cta} buttonName="Fale no WhatsApp" buttonLocation="botao-flutuante">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12.017 2C6.484 2 2 6.484 2 12.017c0 1.982.578 3.83 1.573 5.383L2 22l4.723-1.552A9.943 9.943 0 0 0 12.017 22C17.55 22 22 17.549 22 12.017 22 6.484 17.549 2 12.017 2zm.001 18.06a8.03 8.03 0 0 1-4.084-1.119l-.293-.174-3.036.998.998-3.045-.19-.297A8.03 8.03 0 1 1 20.06 12.02c0 4.442-3.6 8.04-8.042 8.04z" />
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.198.297-.768.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
         </svg>
-      </a>
+        <span>Fale no WhatsApp</span>
+      </CtaLink>
     </main>
   );
 }
