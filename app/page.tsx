@@ -4,7 +4,7 @@ import { AnchorHTMLAttributes, FormEvent, ReactNode, useEffect, useLayoutEffect,
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const WHATSAPP = "5598989030398";
+const WHATSAPP = "5598987840061";
 const logo = "https://mossoroempresarial.com.br/wp-content/uploads/2022/10/LOGO_MOSSORO_PNG.png";
 
 const productCards = [
@@ -354,7 +354,7 @@ export default function Home() {
 
       <section className="final-cta" data-reveal-section><div className="wrap final-inner"><div><p className="eyebrow light" data-reveal-item>VAMOS COMEÇAR?</p><h2><SplitText text="Seu espaço pode" /><br /><SplitText text="trabalhar melhor." /></h2></div><CtaLink href={cta} className="yellow-button" data-reveal-item buttonName="Solicitar uma cotação" buttonLocation="cta-final">SOLICITAR UMA COTAÇÃO <b>→</b></CtaLink></div></section>
 
-      <footer><div className="wrap footer-inner"><img src={logo} alt="Mossoró" /><p>Av. Eng. Emiliano Macieira, 655 – Tirirical<br />São Luís – MA, 65055-215</p><a href="tel:+559832454276" data-gtm-event="click_botao" data-gtm-button="Telefone fixo" data-gtm-location="rodape" onClick={() => trackButtonClick("Telefone fixo", "rodape")}>(98) 3245-4276</a><CtaLink href={cta} buttonName="WhatsApp rodapé" buttonLocation="rodape">WhatsApp: (98) 98903-0398</CtaLink></div></footer>
+      <footer><div className="wrap footer-inner"><img src={logo} alt="Mossoró" /><p>Av. Eng. Emiliano Macieira, 655 – Tirirical<br />São Luís – MA, 65055-215</p><a href="tel:+559832454276" data-gtm-event="click_botao" data-gtm-button="Telefone fixo" data-gtm-location="rodape" onClick={() => trackButtonClick("Telefone fixo", "rodape")}>(98) 3245-4276</a><CtaLink href={cta} buttonName="WhatsApp rodapé" buttonLocation="rodape">WhatsApp: (98) 98784-0061</CtaLink></div></footer>
       <CtaLink className="floating-whatsapp" href={cta} buttonName="Fale no WhatsApp" buttonLocation="botao-flutuante">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12.017 2C6.484 2 2 6.484 2 12.017c0 1.982.578 3.83 1.573 5.383L2 22l4.723-1.552A9.943 9.943 0 0 0 12.017 22C17.55 22 22 17.549 22 12.017 22 6.484 17.549 2 12.017 2zm.001 18.06a8.03 8.03 0 0 1-4.084-1.119l-.293-.174-3.036.998.998-3.045-.19-.297A8.03 8.03 0 1 1 20.06 12.02c0 4.442-3.6 8.04-8.042 8.04z" />
