@@ -240,6 +240,7 @@ export default function Home() {
           email: data.get("email"),
           whatsapp: data.get("whatsapp"),
           whatsappDigitos: phoneDigits,
+          cidade: data.get("cidade") || "",
           empresa: data.get("empresa") || "",
           origem: "landing-page-mossoro",
           enviadoEm: new Date().toISOString(),
@@ -247,7 +248,7 @@ export default function Home() {
         }),
       });
       if (!response.ok) throw new Error("Falha ao enviar lead");
-      const message = `Olá, sou ${data.get("nome")}. Gostaria de solicitar uma cotação para mobiliário empresarial.${data.get("empresa") ? ` Minha empresa é ${data.get("empresa")}.` : ""}`;
+      const message = `Olá, sou ${data.get("nome")}. Gostaria de solicitar uma cotação para mobiliário empresarial.${data.get("empresa") ? ` Minha empresa é ${data.get("empresa")}.` : ""}${data.get("cidade") ? ` Sou de ${data.get("cidade")}.` : ""}`;
       pushDataLayer({ event: "gerar_lead", button_text: buttonName, button_name: buttonName, button_location: "formulario-hero", ...tracking });
       setSent(true);
       window.open(whatsappLink(message), "_blank", "noopener,noreferrer");
@@ -298,6 +299,7 @@ export default function Home() {
               aria-invalid={phoneError}
             /></label>
             {phoneError && <p className="error">Informe um WhatsApp válido com DDD.</p>}
+            <label>Cidade<input required name="cidade" autoComplete="address-level2" placeholder="Sua cidade" /></label>
             <label>Empresa <span>(opcional)</span><input name="empresa" placeholder="Nome da sua empresa" /></label>
           <button type="submit" disabled={sending} data-gtm-event="click_botao" data-gtm-button="Quero falar com a Mossoró" data-gtm-location="formulario-hero">{sending ? "ENVIANDO..." : "QUERO FALAR COM A MOSSORÓ"} {!sending && <b>→</b>}</button>
           {sent && <p className="success">Seu WhatsApp foi aberto. Até já!</p>}
