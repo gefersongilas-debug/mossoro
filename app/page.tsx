@@ -162,6 +162,9 @@ function SplitText({ text }: { text: string }) {
   );
 }
 
+const PERFIL_COMPRA_OPTIONS = ["Empresa / escritório", "Clínica ou consultório", "Minha casa / uso pessoal"] as const;
+const NECESSIDADE_OPTIONS = ["Mobiliar um ambiente completo", "Comprar um produto específico", "Renovar ou substituir móveis", "Apenas pesquisando opções e modelos"] as const;
+
 export default function Home() {
   const [sent, setSent] = useState(false);
   const [tracking, setTracking] = useState<TrackingData>(EMPTY_TRACKING);
@@ -242,14 +245,16 @@ export default function Home() {
           whatsappDigitos: phoneDigits,
           cidade: data.get("cidade") || "",
           empresa: data.get("empresa") || "",
+          perfilCompra: data.get("perfil_compra") || "",
+          necessidade: data.get("necessidade") || "",
           origem: "landing-page-mossoro",
           enviadoEm: new Date().toISOString(),
           ...tracking,
         }),
       });
       if (!response.ok) throw new Error("Falha ao enviar lead");
-      const message = `Olá, sou ${data.get("nome")}. Gostaria de solicitar uma cotação para mobiliário empresarial.${data.get("empresa") ? ` Minha empresa é ${data.get("empresa")}.` : ""}${data.get("cidade") ? ` Sou de ${data.get("cidade")}.` : ""}`;
-      pushDataLayer({ event: "gerar_lead", button_text: buttonName, button_name: buttonName, button_location: "formulario-hero", ...tracking });
+      const message = `Olá, sou ${data.get("nome")}. Gostaria de solicitar uma cotação para mobiliário empresarial.${data.get("empresa") ? ` Minha empresa é ${data.get("empresa")}.` : ""}${data.get("cidade") ? ` Sou de ${data.get("cidade")}.` : ""} Estou comprando para: ${data.get("perfil_compra")}. Minha necessidade: ${data.get("necessidade")}.`;
+      pushDataLayer({ event: "gerar_lead", button_text: buttonName, button_name: buttonName, button_location: "formulario-hero", perfil_compra: data.get("perfil_compra"), necessidade: data.get("necessidade"), ...tracking });
       setSent(true);
       window.open(whatsappLink(message), "_blank", "noopener,noreferrer");
       form.reset();
@@ -301,6 +306,14 @@ export default function Home() {
             {phoneError && <p className="error">Informe um WhatsApp válido com DDD.</p>}
             <label>Cidade<input required name="cidade" autoComplete="address-level2" placeholder="Sua cidade" /></label>
             <label>Empresa <span>(opcional)</span><input name="empresa" placeholder="Nome da sua empresa" /></label>
+            <label>Você está comprando para:<select required name="perfil_compra" defaultValue="">
+              <option value="" disabled>Selecione uma opção</option>
+              {PERFIL_COMPRA_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
+            </select></label>
+            <label>Qual é a sua necessidade hoje?<select required name="necessidade" defaultValue="">
+              <option value="" disabled>Selecione uma opção</option>
+              {NECESSIDADE_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
+            </select></label>
           <button type="submit" disabled={sending} data-gtm-event="click_botao" data-gtm-button="Quero falar com a Mossoró" data-gtm-location="formulario-hero">{sending ? "ENVIANDO..." : "QUERO FALAR COM A MOSSORÓ"} {!sending && <b>→</b>}</button>
           {sent && <p className="success">Seu WhatsApp foi aberto. Até já!</p>}
           {error && <p className="error">Não foi possível enviar agora. Tente novamente.</p>}
